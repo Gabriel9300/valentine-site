@@ -100,34 +100,34 @@ button:hover{
 
 </div>
 
-<!-- Nouveau SDK EmailJS -->
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  emailjs.init("uAi5tcP4qWUNv7fGl"); // ta PUBLIC KEY
-</script>
+<!-- Nouveau SDK EmailJS officiel -->
+<script type="module">
+import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
 
-<script>
+// Initialisation avec ta PUBLIC KEY
+emailjs.init("uAi5tcP4qWUNv7fGl");
+
 let noClicks = 0;
 
 // -------------------------
-// ⚡ Fonction OUI
+// Fonction OUI
 // -------------------------
-function sendYes(){
+window.sendYes = function() {
   emailjs.send("service_pz3cmfv","template_9565r85",{ 
       reponse:"OUI ❤️",
       date:new Date().toLocaleString(),
       from_name:"elle"
   })
-  .then(()=> console.log("Réponse OUI envoyée !"))
+  .then(() => console.log("Réponse OUI envoyée !"))
   .catch(err => console.error("Erreur envoi OUI ❌", err));
 
-  window.location.href = "oui.html"; // Redirection
+  window.location.href = "oui.html";
 }
 
 // -------------------------
-// ⚡ Fonction NON (animation du bouton)
+// Fonction NON avec animation
 // -------------------------
-function handleNo(){
+window.handleNo = function() {
   const btn = document.getElementById("noBtn");
   noClicks++;
 
@@ -145,9 +145,7 @@ function handleNo(){
     .then(()=> console.log("Réponse NON envoyée !"))
     .catch(err => console.error("Erreur envoi NON ❌", err));
 
-    setTimeout(()=>{
-      window.location.href = "non.html";
-    }, 500);
+    setTimeout(()=> window.location.href = "non.html", 500);
   }
 }
 </script>
