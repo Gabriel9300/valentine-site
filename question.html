@@ -6,7 +6,7 @@
 <title>Pour toi ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
@@ -26,40 +26,40 @@ button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
 </head>
 
 <body>
+
 <div class="container">
-
   <h1>J’ai quelque chose à te demander…</h1>
-
   <p>Parfois les mots sont trop longs, alors j’ai préféré te montrer ce que je ressens.</p>
-
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" class="gif">
-
   <div class="question">Veux-tu être ma Valentine ? ❤️</div>
-
   <div class="buttons">
     <button class="yes" id="yesBtn">OUI ❤️</button>
     <button class="no" id="noBtn">NON 💔</button>
   </div>
-
 </div>
 
+<!-- Formulaire invisible pour EmailJS -->
+<form id="emailForm" style="display:none;">
+  <input type="text" name="reponse" value="">
+  <input type="text" name="date" value="">
+  <input type="text" name="from_name" value="elle">
+  <input type="email" name="to_email" value="xanogabriel@gmail.com">
+</form>
+
 <script>
-// Initialisation EmailJS
-emailjs.init("uAi5tcP4qWUNv7fGl"); // Ta PUBLIC KEY
+// Initialisation EmailJS moderne
+emailjs.init("uAi5tcP4qWUNv7fGl");
 
 let noClicks = 0;
+const form = document.getElementById("emailForm");
 
 // Fonction OUI
 document.getElementById("yesBtn").addEventListener("click", function(){
-    emailjs.send("service_pz3cmfv","template_9565r85",{ 
-      reponse:"OUI ❤️",
-      date:new Date().toLocaleString(),
-      from_name:"elle",
-      to_email:"xanogabriel@gmail.com"
-    }).finally(function(){
-      // redirection après l'envoi, succès ou non
-      window.location.href = "oui.html";
-    });
+    form.reponse.value = "OUI ❤️";
+    form.date.value = new Date().toLocaleString();
+    
+    emailjs.sendForm("service_pz3cmfv","template_9565r85",form)
+      .finally(()=> window.location.href = "oui.html");
 });
 
 // Fonction NON
@@ -71,14 +71,11 @@ document.getElementById("noBtn").addEventListener("click", function(){
   btn.style.opacity = `${1 - noClicks * 0.07}`;
 
   if(noClicks >= 10){
-    emailjs.send("service_pz3cmfv","template_9565r85",{ 
-      reponse:"NON 💔",
-      date:new Date().toLocaleString(),
-      from_name:"elle",
-      to_email:"xanogabriel@gmail.com"
-    }).finally(function(){
-      setTimeout(()=> window.location.href = "non.html", 500);
-    });
+    form.reponse.value = "NON 💔";
+    form.date.value = new Date().toLocaleString();
+
+    emailjs.sendForm("service_pz3cmfv","template_9565r85",form)
+      .finally(()=> setTimeout(()=> window.location.href = "non.html", 500));
   }
 });
 </script>
