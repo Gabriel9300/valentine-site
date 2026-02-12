@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour toi ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- ✅ CDN EmailJS compatible GitHub Pages -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{min-height:100vh;background:linear-gradient(135deg,#ffdde1,#ee9ca7);display:flex;justify-content:center;align-items:center}
+.container{background:#fff;width:90%;max-width:420px;padding:30px;border-radius:20px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.15);animation:fadeIn 1s ease}
+h1{font-size:1.4rem;margin-bottom:15px;color:#333}
+p{font-size:.95rem;color:#555;margin-bottom:20px;line-height:1.6}
+.gif{width:100%;max-width:260px;border-radius:15px;margin:15px auto 25px}
+.question{font-size:1.1rem;font-weight:600;margin-bottom:20px;color:#222}
+.buttons{display:flex;gap:15px}
+button{flex:1;padding:12px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:transform .25s ease, opacity .25s ease, box-shadow .25s ease}
+button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.yes{background:#ff4d6d;color:white}
+.no{background:#f1f1f1;color:#555}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>J’ai quelque chose à te demander…</h1>
+  <p>Parfois les mots sont trop longs, alors j’ai préféré te montrer ce que je ressens.</p>
+  <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" class="gif">
+  <div class="question">Veux-tu être ma Valentine ? ❤️</div>
+  <div class="buttons">
+    <button class="yes" id="yesBtn">OUI ❤️</button>
+    <button class="no" id="noBtn">NON 💔</button>
+  </div>
+</div>
+
+<!-- ✅ Formulaire conforme au template {{name}} {{time}} {{message}} -->
+<form id="emailForm" style="display:none;">
+  <input type="text" name="name">
+  <input type="text" name="time">
+  <input type="text" name="message">
+</form>
+
+<script>
+window.addEventListener("load", () => {
+
+  // ✅ Initialisation moderne EmailJS
+  emailjs.init({
+    publicKey: "uAi5tcP4qWUNv7fGl",
+  });
+
+  const form = document.getElementById("emailForm");
+  let noClicks = 0;
+
+  // OUI
+  document.getElementById("yesBtn").addEventListener("click", () => {
+    form.name.value = "Elle";
+    form.time.value = new Date().toLocaleString();
+    form.message.value = "OUI ❤️";
+
+    emailjs.sendForm(
+      "service_pz3cmfv",
+      "template_9565r85",
+      form
+    )
+    .then(() => {
+      window.location.href = "oui.html";
+    })
+    .catch(err => {
+      alert("Erreur EmailJS ❌\n" + err.text);
+    });
+  });
+
+  // NON
+  document.getElementById("noBtn").addEventListener("click", function () {
+    noClicks++;
+    this.style.transform = `scale(${Math.max(0.2, 1 - noClicks * 0.08)})`;
+    this.style.opacity = `${1 - noClicks * 0.07}`;
+
+    if (noClicks >= 10) {
+      form.name.value = "Elle";
+      form.time.value = new Date().toLocaleString();
+      form.message.value = "NON 💔";
+
+      emailjs.sendForm(
+        "service_pz3cmfv",
+        "template_9565r85",
+        form
+      )
+      .then(() => {
+        window.location.href = "non.html";
+      })
+      .catch(err => {
+        alert("Erreur EmailJS ❌\n" + err.text);
+      });
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>
