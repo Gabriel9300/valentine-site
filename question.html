@@ -105,7 +105,13 @@ button:hover{
 // -------------------------
 // ⚡ Initialisation EmailJS
 // -------------------------
-emailjs.init("uAi5tcP4qWUNv7fGl"); // Ta PUBLIC KEY
+(function(){
+  try{ 
+    emailjs.init("uAi5tcP4qWUNv7fGl"); // Ta PUBLIC KEY
+  }catch(e){
+    console.error("EmailJS init failed", e);
+  }
+})();
 
 let noClicks = 0;
 
@@ -113,20 +119,23 @@ let noClicks = 0;
 // ⚡ Fonction OUI
 // -------------------------
 function sendYes(){
-  emailjs.send("service_pz3cmfv","template_9565r85",{ 
-    reponse:"OUI ❤️",
-    date:new Date().toLocaleString(),
-    from_name:"elle",
-    to_email:"xanogabriel@gmail.com"
-  })
-  .then(() => {
-    alert("Mail envoyé ✅");
-    window.location.href = "oui.html"; // Redirection
-  })
-  .catch(err => {
-    alert("Erreur envoi mail ❌");
-    console.error(err);
-  });
+  try{
+    emailjs.send("service_pz3cmfv","template_9565r85",{ 
+      reponse:"OUI ❤️",
+      date:new Date().toLocaleString(),
+      from_name:"elle",
+      to_email:"xanogabriel@gmail.com"
+    }).then(()=>{
+      console.log("Réponse OUI envoyée !");
+      alert("Réponse OUI envoyée ✅"); // utile pour debug mobile
+      window.location.href = "oui.html"; // Redirection
+    }).catch(err=>{
+      alert("Erreur envoi OUI ❌ : " + JSON.stringify(err));
+      console.error("Erreur envoi OUI", err);
+    });
+  }catch(e){
+    console.error(e);
+  }
 }
 
 // -------------------------
@@ -142,20 +151,21 @@ function handleNo(){
   btn.style.opacity = `${1 - noClicks * 0.07}`;
 
   if(noClicks >= 10){
-    emailjs.send("service_pz3cmfv","template_9565r85",{ 
-      reponse:"NON 💔",
-      date:new Date().toLocaleString(),
-      from_name:"elle",
-      to_email:"xanogabriel@gmail.com"
-    })
-    .then(() => {
-      alert("Mail envoyé ✅");
-      setTimeout(()=>{ window.location.href = "non.html"; }, 500);
-    })
-    .catch(err => {
-      alert("Erreur envoi mail ❌");
-      console.error(err);
-    });
+    try{
+      emailjs.send("service_pz3cmfv","template_9565r85",{ 
+        reponse:"NON 💔",
+        date:new Date().toLocaleString(),
+        from_name:"elle",
+        to_email:"xanogabriel@gmail.com"
+      }).then(()=>{
+        console.log("Réponse NON envoyée !");
+        alert("Réponse NON envoyée ✅"); // utile pour debug mobile
+        setTimeout(()=>{ window.location.href = "non.html"; }, 500);
+      }).catch(err=>{
+        alert("Erreur envoi NON ❌ : " + JSON.stringify(err));
+        console.error("Erreur envoi NON", err);
+      });
+    }catch(e){console.error(e);}
   }
 }
 </script>
