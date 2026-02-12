@@ -7,6 +7,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
@@ -100,42 +102,34 @@ button:hover{
 
 </div>
 
-<!-- SDK EmailJS officiel -->
-<script type="module">
-import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
-
-// ⚡ Initialisation
+<script>
+// ⚡ Initialisation EmailJS
 emailjs.init("uAi5tcP4qWUNv7fGl");
 
 let noClicks = 0;
 
-// -------------------------
 // Fonction OUI
-// -------------------------
-window.sendYes = function() {
+function sendYes(){
   emailjs.send("service_pz3cmfv","template_9565r85",{ 
       reponse:"OUI ❤️",
       date:new Date().toLocaleString(),
       from_name:"elle"
   })
-  .then(() => {
+  .then(function(){
       alert("Ton OUI a été envoyé avec succès ! 💌");
       window.location.href = "oui.html";
   })
-  .catch(err => {
+  .catch(function(err){
       alert("Erreur lors de l'envoi 😢");
       console.error("Erreur envoi OUI ❌", err);
   });
 }
 
-// -------------------------
-// Fonction NON avec animation
-// -------------------------
-window.handleNo = function() {
+// Fonction NON
+function handleNo(){
   const btn = document.getElementById("noBtn");
   noClicks++;
 
-  // Réduction progressive du bouton
   const scale = Math.max(0.2, 1 - noClicks * 0.08);
   btn.style.transform = `scale(${scale})`;
   btn.style.opacity = `${1 - noClicks * 0.07}`;
@@ -146,11 +140,11 @@ window.handleNo = function() {
       date:new Date().toLocaleString(),
       from_name:"elle"
     })
-    .then(() => {
+    .then(function(){
       alert("Ton NON a été envoyé avec succès 💌");
       setTimeout(()=> window.location.href = "non.html", 500);
     })
-    .catch(err => {
+    .catch(function(err){
       alert("Erreur lors de l'envoi 😢");
       console.error("Erreur envoi NON ❌", err);
     });
