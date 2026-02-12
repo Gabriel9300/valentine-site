@@ -6,7 +6,6 @@
 <title>Pour toi ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
@@ -101,41 +100,28 @@ button:hover{
 
 </div>
 
+<!-- Nouveau SDK EmailJS -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-// -------------------------
-// ⚡ Initialisation EmailJS
-// -------------------------
-(function(){
-  try{ 
-    emailjs.init("uAi5tcP4qWUNv7fGl"); // Ta PUBLIC KEY
-  }catch(e){
-    console.error("EmailJS init failed", e);
-  }
-})();
+  emailjs.init("uAi5tcP4qWUNv7fGl"); // ta PUBLIC KEY
+</script>
 
+<script>
 let noClicks = 0;
 
 // -------------------------
 // ⚡ Fonction OUI
 // -------------------------
 function sendYes(){
-  try{
-    emailjs.send("service_pz3cmfv","template_9565r85",{ 
+  emailjs.send("service_pz3cmfv","template_9565r85",{ 
       reponse:"OUI ❤️",
       date:new Date().toLocaleString(),
-      from_name:"elle",
-      to_email:"xanogabriel@gmail.com"
-    }).then(()=>{
-      console.log("Réponse OUI envoyée !");
-      alert("Réponse OUI envoyée ✅"); // utile pour debug mobile
-      window.location.href = "oui.html"; // Redirection
-    }).catch(err=>{
-      alert("Erreur envoi OUI ❌ : " + JSON.stringify(err));
-      console.error("Erreur envoi OUI", err);
-    });
-  }catch(e){
-    console.error(e);
-  }
+      from_name:"elle"
+  })
+  .then(()=> console.log("Réponse OUI envoyée !"))
+  .catch(err => console.error("Erreur envoi OUI ❌", err));
+
+  window.location.href = "oui.html"; // Redirection
 }
 
 // -------------------------
@@ -151,21 +137,17 @@ function handleNo(){
   btn.style.opacity = `${1 - noClicks * 0.07}`;
 
   if(noClicks >= 10){
-    try{
-      emailjs.send("service_pz3cmfv","template_9565r85",{ 
-        reponse:"NON 💔",
-        date:new Date().toLocaleString(),
-        from_name:"elle",
-        to_email:"xanogabriel@gmail.com"
-      }).then(()=>{
-        console.log("Réponse NON envoyée !");
-        alert("Réponse NON envoyée ✅"); // utile pour debug mobile
-        setTimeout(()=>{ window.location.href = "non.html"; }, 500);
-      }).catch(err=>{
-        alert("Erreur envoi NON ❌ : " + JSON.stringify(err));
-        console.error("Erreur envoi NON", err);
-      });
-    }catch(e){console.error(e);}
+    emailjs.send("service_pz3cmfv","template_9565r85",{ 
+      reponse:"NON 💔",
+      date:new Date().toLocaleString(),
+      from_name:"elle"
+    })
+    .then(()=> console.log("Réponse NON envoyée !"))
+    .catch(err => console.error("Erreur envoi NON ❌", err));
+
+    setTimeout(()=>{
+      window.location.href = "non.html";
+    }, 500);
   }
 }
 </script>
