@@ -6,76 +6,22 @@
 <title>Pour toi ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-
-body{
-  min-height:100vh;
-  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-  display:flex;
-  justify-content:center;
-  align-items:center
-}
-
-.container{
-  background:#fff;
-  width:90%;
-  max-width:420px;
-  padding:30px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,.15);
-  animation:fadeIn 1s ease
-}
-
+body{min-height:100vh;background:linear-gradient(135deg,#ffdde1,#ee9ca7);display:flex;justify-content:center;align-items:center}
+.container{background:#fff;width:90%;max-width:420px;padding:30px;border-radius:20px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.15);animation:fadeIn 1s ease}
 h1{font-size:1.4rem;margin-bottom:15px;color:#333}
 p{font-size:.95rem;color:#555;margin-bottom:20px;line-height:1.6}
-
-.gif{
-  width:100%;
-  max-width:260px;
-  border-radius:15px;
-  margin:15px auto 25px
-}
-
-.question{
-  font-size:1.1rem;
-  font-weight:600;
-  margin-bottom:20px;
-  color:#222
-}
-
-.buttons{
-  display:flex;
-  gap:15px
-}
-
-button{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  font-size:1rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:transform .25s ease, opacity .25s ease, box-shadow .25s ease
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(0,0,0,.15)
-}
-
+.gif{width:100%;max-width:260px;border-radius:15px;margin:15px auto 25px}
+.question{font-size:1.1rem;font-weight:600;margin-bottom:20px;color:#222}
+.buttons{display:flex;gap:15px}
+button{flex:1;padding:12px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:transform .25s ease, opacity .25s ease, box-shadow .25s ease}
+button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
 .yes{background:#ff4d6d;color:white}
 .no{background:#f1f1f1;color:#555}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 
@@ -84,52 +30,42 @@ button:hover{
 
   <h1>J’ai quelque chose à te demander…</h1>
 
-  <p>
-    Parfois les mots sont trop longs,  
-    alors j’ai préféré te montrer ce que je ressens.
-  </p>
+  <p>Parfois les mots sont trop longs, alors j’ai préféré te montrer ce que je ressens.</p>
 
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" class="gif">
 
-  <div class="question">
-    Veux-tu être ma Valentine ? ❤️
-  </div>
+  <div class="question">Veux-tu être ma Valentine ? ❤️</div>
 
   <div class="buttons">
-    <button class="yes" onclick="sendYes()">OUI ❤️</button>
-    <button class="no" id="noBtn" onclick="handleNo()">NON 💔</button>
+    <button class="yes" id="yesBtn">OUI ❤️</button>
+    <button class="no" id="noBtn">NON 💔</button>
   </div>
 
 </div>
 
 <script>
-// ⚡ Initialisation EmailJS
-emailjs.init("uAi5tcP4qWUNv7fGl");
+// Initialisation EmailJS
+emailjs.init("uAi5tcP4qWUNv7fGl"); // Ta PUBLIC KEY
 
 let noClicks = 0;
 
 // Fonction OUI
-function sendYes(){
-  emailjs.send("service_pz3cmfv","template_9565r85",{ 
+document.getElementById("yesBtn").addEventListener("click", function(){
+    emailjs.send("service_pz3cmfv","template_9565r85",{ 
       reponse:"OUI ❤️",
       date:new Date().toLocaleString(),
-      from_name:"elle"
-  })
-  .then(function(){
-      alert("Ton OUI a été envoyé avec succès ! 💌");
+      from_name:"elle",
+      to_email:"xanogabriel@gmail.com"
+    }).finally(function(){
+      // redirection après l'envoi, succès ou non
       window.location.href = "oui.html";
-  })
-  .catch(function(err){
-      alert("Erreur lors de l'envoi 😢");
-      console.error("Erreur envoi OUI ❌", err);
-  });
-}
+    });
+});
 
 // Fonction NON
-function handleNo(){
-  const btn = document.getElementById("noBtn");
+document.getElementById("noBtn").addEventListener("click", function(){
   noClicks++;
-
+  const btn = this;
   const scale = Math.max(0.2, 1 - noClicks * 0.08);
   btn.style.transform = `scale(${scale})`;
   btn.style.opacity = `${1 - noClicks * 0.07}`;
@@ -138,18 +74,13 @@ function handleNo(){
     emailjs.send("service_pz3cmfv","template_9565r85",{ 
       reponse:"NON 💔",
       date:new Date().toLocaleString(),
-      from_name:"elle"
-    })
-    .then(function(){
-      alert("Ton NON a été envoyé avec succès 💌");
+      from_name:"elle",
+      to_email:"xanogabriel@gmail.com"
+    }).finally(function(){
       setTimeout(()=> window.location.href = "non.html", 500);
-    })
-    .catch(function(err){
-      alert("Erreur lors de l'envoi 😢");
-      console.error("Erreur envoi NON ❌", err);
     });
   }
-}
+});
 </script>
 
 </body>
