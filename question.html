@@ -100,11 +100,11 @@ button:hover{
 
 </div>
 
-<!-- Nouveau SDK EmailJS officiel -->
+<!-- SDK EmailJS officiel -->
 <script type="module">
 import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
 
-// Initialisation avec ta PUBLIC KEY
+// ⚡ Initialisation
 emailjs.init("uAi5tcP4qWUNv7fGl");
 
 let noClicks = 0;
@@ -118,10 +118,14 @@ window.sendYes = function() {
       date:new Date().toLocaleString(),
       from_name:"elle"
   })
-  .then(() => console.log("Réponse OUI envoyée !"))
-  .catch(err => console.error("Erreur envoi OUI ❌", err));
-
-  window.location.href = "oui.html";
+  .then(() => {
+      alert("Ton OUI a été envoyé avec succès ! 💌");
+      window.location.href = "oui.html";
+  })
+  .catch(err => {
+      alert("Erreur lors de l'envoi 😢");
+      console.error("Erreur envoi OUI ❌", err);
+  });
 }
 
 // -------------------------
@@ -142,10 +146,14 @@ window.handleNo = function() {
       date:new Date().toLocaleString(),
       from_name:"elle"
     })
-    .then(()=> console.log("Réponse NON envoyée !"))
-    .catch(err => console.error("Erreur envoi NON ❌", err));
-
-    setTimeout(()=> window.location.href = "non.html", 500);
+    .then(() => {
+      alert("Ton NON a été envoyé avec succès 💌");
+      setTimeout(()=> window.location.href = "non.html", 500);
+    })
+    .catch(err => {
+      alert("Erreur lors de l'envoi 😢");
+      console.error("Erreur envoi NON ❌", err);
+    });
   }
 }
 </script>
