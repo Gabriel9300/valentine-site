@@ -6,7 +6,9 @@
 <title>Pour toi ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<!-- ✅ CDN EmailJS compatible GitHub Pages -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
@@ -38,45 +40,68 @@ button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
   </div>
 </div>
 
-<!-- Formulaire invisible pour EmailJS -->
+<!-- ✅ Formulaire conforme au template {{name}} {{time}} {{message}} -->
 <form id="emailForm" style="display:none;">
-  <input type="text" name="reponse" value="">
-  <input type="text" name="date" value="">
-  <input type="text" name="from_name" value="elle">
-  <input type="email" name="to_email" value="xanogabriel@gmail.com">
+  <input type="text" name="name">
+  <input type="text" name="time">
+  <input type="text" name="message">
 </form>
 
 <script>
-// Initialisation EmailJS moderne
-emailjs.init("uAi5tcP4qWUNv7fGl");
+window.addEventListener("load", () => {
 
-let noClicks = 0;
-const form = document.getElementById("emailForm");
+  // ✅ Initialisation moderne EmailJS
+  emailjs.init({
+    publicKey: "uAi5tcP4qWUNv7fGl",
+  });
 
-// Fonction OUI
-document.getElementById("yesBtn").addEventListener("click", function(){
-    form.reponse.value = "OUI ❤️";
-    form.date.value = new Date().toLocaleString();
-    
-    emailjs.sendForm("service_pz3cmfv","template_9565r85",form)
-      .finally(()=> window.location.href = "oui.html");
-});
+  const form = document.getElementById("emailForm");
+  let noClicks = 0;
 
-// Fonction NON
-document.getElementById("noBtn").addEventListener("click", function(){
-  noClicks++;
-  const btn = this;
-  const scale = Math.max(0.2, 1 - noClicks * 0.08);
-  btn.style.transform = `scale(${scale})`;
-  btn.style.opacity = `${1 - noClicks * 0.07}`;
+  // OUI
+  document.getElementById("yesBtn").addEventListener("click", () => {
+    form.name.value = "Elle";
+    form.time.value = new Date().toLocaleString();
+    form.message.value = "OUI ❤️";
 
-  if(noClicks >= 10){
-    form.reponse.value = "NON 💔";
-    form.date.value = new Date().toLocaleString();
+    emailjs.sendForm(
+      "service_pz3cmfv",
+      "template_9565r85",
+      form
+    )
+    .then(() => {
+      window.location.href = "oui.html";
+    })
+    .catch(err => {
+      alert("Erreur EmailJS ❌\n" + err.text);
+    });
+  });
 
-    emailjs.sendForm("service_pz3cmfv","template_9565r85",form)
-      .finally(()=> setTimeout(()=> window.location.href = "non.html", 500));
-  }
+  // NON
+  document.getElementById("noBtn").addEventListener("click", function () {
+    noClicks++;
+    this.style.transform = `scale(${Math.max(0.2, 1 - noClicks * 0.08)})`;
+    this.style.opacity = `${1 - noClicks * 0.07}`;
+
+    if (noClicks >= 10) {
+      form.name.value = "Elle";
+      form.time.value = new Date().toLocaleString();
+      form.message.value = "NON 💔";
+
+      emailjs.sendForm(
+        "service_pz3cmfv",
+        "template_9565r85",
+        form
+      )
+      .then(() => {
+        window.location.href = "non.html";
+      })
+      .catch(err => {
+        alert("Erreur EmailJS ❌\n" + err.text);
+      });
+    }
+  });
+
 });
 </script>
 
