@@ -7,7 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<!-- EmailJS -->
+<!-- ✅ CDN EmailJS compatible GitHub Pages -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
@@ -40,7 +40,7 @@ button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
   </div>
 </div>
 
-<!-- Formulaire caché EmailJS -->
+<!-- ✅ Formulaire conforme au template {{name}} {{time}} {{message}} -->
 <form id="emailForm" style="display:none;">
   <input type="text" name="name">
   <input type="text" name="time">
@@ -50,13 +50,15 @@ button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
 <script>
 window.addEventListener("load", () => {
 
+  // ✅ Initialisation moderne EmailJS
   emailjs.init({
-    publicKey: "qB9qM_YUragkUqyZB",
+    publicKey: "hO19una0Y0nUGXxRx",
   });
 
   const form = document.getElementById("emailForm");
   let noClicks = 0;
 
+  // OUI
   document.getElementById("yesBtn").addEventListener("click", () => {
     form.name.value = "Elle";
     form.time.value = new Date().toLocaleString();
@@ -66,13 +68,16 @@ window.addEventListener("load", () => {
       "service_pz3cmfv",
       "template_9565r85",
       form
-    ).then(() => {
+    )
+    .then(() => {
       window.location.href = "oui.html";
-    }).catch(err => {
+    })
+    .catch(err => {
       alert("Erreur EmailJS ❌\n" + err.text);
     });
   });
 
+  // NON
   document.getElementById("noBtn").addEventListener("click", function () {
     noClicks++;
     this.style.transform = `scale(${Math.max(0.2, 1 - noClicks * 0.08)})`;
@@ -87,9 +92,11 @@ window.addEventListener("load", () => {
         "service_pz3cmfv",
         "template_9565r85",
         form
-      ).then(() => {
+      )
+      .then(() => {
         window.location.href = "non.html";
-      }).catch(err => {
+      })
+      .catch(err => {
         alert("Erreur EmailJS ❌\n" + err.text);
       });
     }
